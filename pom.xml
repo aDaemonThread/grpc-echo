@@ -96,7 +96,7 @@
                         io.grpc:protoc-gen-grpc-java:1.22.1:exe:${os.detected.classifier}
                     </pluginArtifact>
                     <protoSourceRoot>
-                        ${basedir}/src/main/resources/proto/
+                        ${basedir}/src/main/proto/
                     </protoSourceRoot>
                 </configuration>
                 <executions>
