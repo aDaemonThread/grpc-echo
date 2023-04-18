@@ -1,0 +1,21 @@
+{
+  "name": "grpc-echo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@grpc/proto-loader": "^0.3.0",
+    "grpc": "^1.17.0",
+    "highland": "^2.13.5",
+    "mali": "^0.9.2"
+  },
+  "devDependencies": {
+    "grpcc": "^1.1.3"
+  }
+}
