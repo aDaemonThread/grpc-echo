@@ -27,7 +27,7 @@ const streamData = [{
 async function echoUnary (ctx) {
   console.dir(ctx.metadata, { depth: 3, colors: true })
   console.log(`got echoUnary request message: ${ctx.req.message}`)
-  ctx.res = { message: 'Echo ' + ctx.req.message }
+  ctx.res = { message: ctx.req.message }
   console.log(`set echoUnary response: ${ctx.res.message}`)
 }
 
@@ -35,7 +35,7 @@ async function echoServerStream (ctx) {
   console.dir(ctx.metadata, { depth: 3, colors: true })
   console.log(`got echoServerStream request message: ${ctx.req.message}`)
   ctx.res = hl(streamData)
-  console.log(`done sayHellos`)
+  console.log(`done echoServerStream`)
 }
 
 async function echoClientStream (ctx) {
@@ -55,22 +55,22 @@ async function echoClientStream (ctx) {
         .toCallback((err, result) => {
           if (err) return reject(err)
           console.log(`done echoClientStream counter ${counter}`)
-          ctx.response.res = { message: 'Hello ' + counter }
+          ctx.response.res = { message: 'Processed ' + counter + 'messages'}
           resolve()
         })
   })
 }
 
-async function echoStream (ctx) {
-  console.log('got echoStream')
+async function echoBidiStream (ctx) {
+  console.log('got echoBidiStream')
   console.dir(ctx.metadata, { depth: 3, colors: true })
   let counter = 0
   ctx.req.on('data', d => {
     counter++
-    ctx.res.write({ message: 'Hello ' + d.message })
+    ctx.res.write({ message:  d.message })
   })
   ctx.req.on('end', () => {
-    console.log(`done echoStream counter ${counter}`)
+    console.log(`done echoBidiStream counter ${counter}`)
     ctx.res.end()
   })
 }
@@ -81,7 +81,7 @@ async function echoStream (ctx) {
  */
 function main () {
   const app = new Mali(PROTO_PATH, 'EchoService')
-  app.use({ echoUnary, echoServerStream, echoClientStream, echoStream })
+  app.use({ echoUnary, echoServerStream, echoClientStream, echoBidiStream })
   app.start(`0.0.0.0:${PORT}`)
   console.log(`Echo service running @ :${PORT}`)
 }
