@@ -28,7 +28,8 @@ async function echoUnary (ctx) {
   console.dir(ctx.metadata, { depth: 3, colors: true })
   console.log(`got echoUnary request message: ${ctx.req.message}`)
 
-  ctx.res.setHeader('custom-header', 'value');
+  ctx.response.set('foo', 'bar')
+  ctx.response.sendMetadata()
 
   ctx.res = { message: ctx.req.message }
   console.log(`set echoUnary response: ${ctx.res.message}`)
