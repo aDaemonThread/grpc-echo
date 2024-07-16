@@ -30,6 +30,7 @@ async function echoUnary (ctx) {
 
   ctx.response.set('foo', 'bar')
   ctx.response.sendMetadata()
+  console.log(ctx.response.metadata)
 
   ctx.res = { message: ctx.req.message }
   console.log(`set echoUnary response: ${ctx.res.message}`)
