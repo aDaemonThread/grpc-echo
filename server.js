@@ -30,7 +30,6 @@ async function echoUnary (ctx) {
 
   ctx.set('foo', 'bar')
   ctx.sendMetadata()
-  console.log(ctx.metadata)
 
   ctx.res = { message: ctx.req.message }
   console.log(`set echoUnary response: ${ctx.res.message}`)
@@ -39,6 +38,10 @@ async function echoUnary (ctx) {
 async function echoServerStream (ctx) {
   console.dir(ctx.metadata, { depth: 3, colors: true })
   console.log(`got echoServerStream request message: ${ctx.req.message}`)
+
+  ctx.set('foo', 'bar')
+  ctx.sendMetadata()
+
   ctx.res = hl(streamData)
   console.log(`done echoServerStream`)
 }
@@ -60,6 +63,10 @@ async function echoClientStream (ctx) {
         .toCallback((err, result) => {
           if (err) return reject(err)
           console.log(`done echoClientStream counter ${counter}`)
+
+          ctx.set('foo', 'bar')
+          ctx.sendMetadata()
+
           ctx.response.res = { message: 'Processed ' + counter + 'messages'}
           resolve()
         })
@@ -70,6 +77,10 @@ async function echoBidiStream (ctx) {
   console.log('got echoBidiStream')
   console.dir(ctx.metadata, { depth: 3, colors: true })
   let counter = 0
+
+  ctx.set('foo', 'bar')
+  ctx.sendMetadata()
+  
   ctx.req.on('data', d => {
     counter++
     ctx.res.write({ message:  d.message })
