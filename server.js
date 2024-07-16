@@ -27,10 +27,11 @@ const streamData = [{
 async function echoUnary (ctx) {
   console.dir(ctx.metadata, { depth: 3, colors: true })
   console.log(`got echoUnary request message: ${ctx.req.message}`)
-  ctx.sendMetadata({
-    foo: 'bar',
-    biz: 'baz'  
-  })
+
+  ctx.set('foo1', 'bar')
+  // or
+  ctx.response.set('biz1', 'baz')
+
   ctx.res = { message: ctx.req.message }
   console.log(`set echoUnary response: ${ctx.res.message}`)
 }
