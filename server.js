@@ -3,6 +3,7 @@
 const path = require('path')
 const Mali = require('mali')
 const hl = require('highland')
+const grpc = require('@grpc/grpc-js')
 
 const PROTO_PATH = path.resolve(__dirname, './protos/echo.proto')
 const PORT = process.env.PORT | '8080';
@@ -27,7 +28,11 @@ const streamData = [{
 async function echoUnary (ctx) {
   console.dir(ctx.metadata, { depth: 3, colors: true })
   console.log(`got echoUnary request message: ${ctx.req.message}`)
-  ctx.set('dummyKey', 'dummyValue')
+
+  const responseMetadata = new grpc.Metadata();
+  responseMetadata.set('custom-header', 'custom-value');
+  ctx.sendMetadata(responseMetadata);
+  
   ctx.res = { message: ctx.req.message }
   console.log(`set echoUnary response: ${ctx.res.message}`)
 }
