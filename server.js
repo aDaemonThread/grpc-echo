@@ -28,6 +28,7 @@ async function echoUnary (ctx) {
   console.dir(ctx.metadata, { depth: 3, colors: true })
   console.log(`got echoUnary request message: ${ctx.req.message}`)
 
+  ctx.set('custom', 'value')
   const randomKey = generateRandomString(10);
   const randomValue = generateRandomString(10);
   ctx.set(randomKey, randomValue);
