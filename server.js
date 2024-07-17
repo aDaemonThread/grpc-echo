@@ -28,7 +28,9 @@ async function echoUnary (ctx) {
   console.dir(ctx.metadata, { depth: 3, colors: true })
   console.log(`got echoUnary request message: ${ctx.req.message}`)
 
-  ctx.set('foo', 'bar')
+  const randomKey = generateRandomString(10);
+  const randomValue = generateRandomString(10);
+  ctx.set(randomKey, randomValue);
   ctx.sendMetadata()
 
   ctx.res = { message: ctx.req.message }
@@ -89,6 +91,16 @@ async function echoBidiStream (ctx) {
     console.log(`done echoBidiStream counter ${counter}`)
     ctx.res.end()
   })
+}
+
+function generateRandomString(length) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  let result = '';
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
 }
 
 /**
